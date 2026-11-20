@@ -37,39 +37,26 @@
     q.addEventListener('input',ovu);ovu();
   }
 
-  var out=document.getElementById('out');
-  if(out){
+  var first=document.getElementById('f-brand');
+  if(first){
     var fq=document.getElementById('f-qty');fq.min=S.minQty;fq.value=S.exampleQty;
-    var ids=['f-brand','f-name','f-email','f-style','f-qty','f-fob','f-date','f-fibre'];
+    var st=document.getElementById('st'),send=document.getElementById('send');
     function v(id){return document.getElementById(id).value.trim();}
-    function build(){
-      var s='Hi,\n\nI would like a costing for one style.\n\n';
-      s+='Brand: '+(v('f-brand')||'-')+'\nContact: '+(v('f-name')||'-')+'\nEmail: '+(v('f-email')||'-')+'\n';
-      s+='Style: '+v('f-style')+'\nQuantity: '+(v('f-qty')||'-')+' pcs per style\n';
-      s+='Target FOB: '+(v('f-fob')?'US$ '+v('f-fob')+' per pc':'-')+'\n';
-      s+='Delivery needed by: '+(v('f-date')||'-')+'\nFibre / certification: '+(v('f-fibre')||'-')+'\n\n';
-      s+='I will attach a tech pack or photos. Please send factory options and a cost sheet.\n\nThank you,\n'+(v('f-name')||'');
-      out.value=s;
-    }
-    ids.forEach(function(i){var e=document.getElementById(i);e.addEventListener('input',build);e.addEventListener('change',build);});
-    build();
-    var st=document.getElementById('st');
-    var send=document.getElementById('send');
     if(S.formEndpoint){send.hidden=false;}
+    else{st.textContent='Online requests are not switched on yet. Please email '+S.email+'.';}
     send.addEventListener('click',function(){
       var email=v('f-email');
       if(!v('f-brand')||!v('f-name')||!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)||!(parseFloat(v('f-qty'))>0)){st.textContent='Please fill in brand, your name, a valid email and the quantity.';return;}
       if(document.getElementById('f-gotcha').value){return;}
       var d=new Date(),ref='WD-'+d.getFullYear()+('0'+(d.getMonth()+1)).slice(-2)+('0'+d.getDate()).slice(-2)+'-'+Math.random().toString(36).slice(2,6).toUpperCase();
-      var payload={order_ref:ref,_subject:'New costing request '+ref+' from '+v('f-brand'),brand:v('f-brand'),contact_name:v('f-name'),email:email,style:v('f-style'),quantity_per_style:v('f-qty'),target_fob_usd:v('f-fob'),delivery_needed_by:v('f-date'),fibre_and_certification:v('f-fibre'),message:out.value};
+      var payload={order_ref:ref,_subject:'New costing request '+ref+' from '+v('f-brand'),brand:v('f-brand'),contact_name:v('f-name'),email:email,style:v('f-style'),quantity_per_style:v('f-qty'),target_fob_usd:v('f-fob')||'-',delivery_needed_by:v('f-date')||'-',fibre_and_certification:v('f-fibre')||'-',notes:v('f-notes')||'-'};
       send.disabled=true;st.textContent='Sending...';
       fetch(S.formEndpoint,{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify(payload)})
-        .then(function(r){if(!r.ok)throw new Error('bad');st.textContent='Sent. Your reference is '+ref+'. Expect a reply by email within '+S.costingTime+'.';})
-        .catch(function(){st.textContent='Could not send. Please copy the message and email it to '+S.email+'.';send.disabled=false;});
-    });
-    document.getElementById('copy').addEventListener('click',function(){
-      function fb(){out.removeAttribute('readonly');out.focus();out.select();out.setAttribute('readonly','');st.textContent='Press Ctrl+C (or Cmd+C) to copy the selected text.';}
-      try{navigator.clipboard.writeText(out.value).then(function(){st.textContent='Copied.';},fb);}catch(e){fb();}
+        .then(function(r){if(!r.ok)throw new Error('bad');
+          st.textContent='Sent. Your reference is '+ref+'. Expect a reply by email within '+S.costingTime+'.';
+          ['f-brand','f-name','f-email','f-fob','f-date','f-fibre','f-notes'].forEach(function(id){document.getElementById(id).value='';});
+          send.disabled=false;})
+        .catch(function(){st.textContent='Could not send. Please email '+S.email+' instead.';send.disabled=false;});
     });
   }
 })();
