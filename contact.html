@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Get a costing</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Instrument+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="style.css">
+</head>
+<body data-title="Get a costing">
+<div class="wrap">
+<header id="site-header"></header>
+<main>
+<div class="pagehead"><p class="eyebrow">Get a costing</p><h1 style="margin-top:10px">Describe one style. Send it. Costing in <span data-s="costingTime"></span>.</h1></div>
+<section>
+  <div class="two">
+    <div>
+      <div class="form">
+        <div><label for="f-brand">Brand</label><input id="f-brand" type="text" placeholder="Your brand name"></div>
+        <div><label for="f-name">Your name</label><input id="f-name" type="text" placeholder="Your name"></div>
+        <div><label for="f-style">Style</label>
+          <select id="f-style"><option>Crewneck sweater</option><option>Cardigan</option><option>T-shirt</option><option>Polo</option><option>Hoodie</option><option>Other knit</option></select></div>
+        <div><label for="f-qty">Pieces per style</label><input id="f-qty" type="number" min="500" step="100" value="1000" inputmode="numeric"></div>
+        <div><label for="f-fob">Target FOB (US$ / pc)</label><input id="f-fob" type="number" min="0" step="0.1" placeholder="e.g. 9.50" inputmode="decimal"></div>
+        <div><label for="f-date">Delivery needed by</label><input id="f-date" type="date"></div>
+        <div class="full"><label for="f-fibre">Fibre and certification</label><input id="f-fibre" type="text" placeholder="e.g. 100% BCI cotton, 20/2Ne, GOTS if possible"></div>
+      </div>
+    </div>
+    <div>
+      <label for="out">Your message (copy it and send it to the contact below)</label>
+      <textarea id="out" readonly></textarea>
+      <div class="row"><button class="btn" id="copy" type="button">Copy message</button><span class="status" id="st" role="status"></span></div>
+      <div class="contact">
+        <span>Send it to:</span>
+        <span>Email <code data-s="email"></code></span>
+        <span id="wa" hidden>WhatsApp <code data-s="whatsapp"></code></span>
+        <span>LinkedIn <a id="li" target="_blank" rel="noopener"></a></span>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+<footer id="site-footer"></footer>
+</div>
+<script src="settings.js"></script>
+<script src="site.js"></script>
+</body>
+</html>
