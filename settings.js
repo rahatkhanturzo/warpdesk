@@ -5,7 +5,7 @@
 var SETTINGS = {
   brand: "Warp Desk",
   email: "rahatkhanturzo@gmail.com",
-   formendpoint:"https://formspree.io/f/mwloqdjl",
+   formEndpoint: "https://formspree.io/f/mwloqdjl",
   whatsapp: "",                       /* add a number, e.g. "+8801XXXXXXXXX", to show it */
   linkedinUrl: "https://www.linkedin.com/in/engr-rahat-khan-050240123/",
   linkedinText: "Rahat Khan",
