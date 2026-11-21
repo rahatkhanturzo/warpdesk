@@ -112,3 +112,36 @@ a.card p{color:var(--muted);margin-top:6px;font-size:.93rem}
 a.card .go{display:block;margin-top:12px;font-family:var(--mono);font-size:.82rem;color:var(--accent)}
 .endcta{display:flex;gap:12px;flex-wrap:wrap;margin-top:28px}
 @media (max-width:860px){.linkcards{grid-template-columns:1fr}}
+
+/* ---------- motion and polish ---------- */
+header.top{position:sticky;top:0;z-index:30;background:color-mix(in srgb,var(--bg) 90%,transparent);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}
+header.top.scrolled{box-shadow:0 10px 24px -18px rgba(0,0,0,.45)}
+nav a:not(.btn){position:relative}
+nav a:not(.btn)::after{content:"";position:absolute;left:0;right:0;bottom:-5px;height:2px;background:var(--accent);transform:scaleX(0);transform-origin:left}
+nav a:not(.btn):hover::after,nav a:not(.btn):focus-visible::after,nav a.active::after{transform:scaleX(1)}
+.hero{position:relative;isolation:isolate}
+.veins-wrap{position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:-1}
+.veins{width:100%;height:100%;display:block}
+.veins path{fill:none;stroke:var(--accent);stroke-width:1.6;stroke-linecap:round;opacity:.24;stroke-dasharray:1}
+@media (prefers-reduced-motion:no-preference){
+  @keyframes rise{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+  @keyframes draw{to{stroke-dashoffset:0}}
+  @keyframes rowin{from{opacity:0;transform:translateX(-8px)}to{opacity:1;transform:none}}
+  .hero .eyebrow,.hero h1,.hero .lead,.hero .cta,.hero .facts,.hero .sheet,.pagehead>*{animation:rise .75s cubic-bezier(.2,.7,.2,1) both}
+  .hero .eyebrow,.pagehead .eyebrow{animation-delay:.05s}
+  .hero h1,.pagehead h1{animation-delay:.15s}
+  .hero .lead,.pagehead .lead{animation-delay:.28s}
+  .hero .cta{animation-delay:.4s}
+  .hero .facts{animation-delay:.52s}
+  .hero .sheet{animation-delay:.35s}
+  .veins path{stroke-dashoffset:1;animation:draw 2.6s cubic-bezier(.4,0,.2,1) forwards;animation-delay:calc(var(--d,0)*1s)}
+  .sheet tbody tr{animation:rowin .5s ease both;animation-delay:calc(.7s + var(--i,0)*.09s)}
+  .rv{opacity:0;transform:translateY(20px);transition:opacity .7s ease,transform .7s cubic-bezier(.2,.7,.2,1)}
+  .rv.in{opacity:1;transform:none}
+  .btn{transition:transform .18s ease,filter .18s ease}
+  .btn:hover{transform:translateY(-2px)}
+  a.card{transition:transform .22s ease,border-color .22s ease,box-shadow .22s ease}
+  a.card:hover,a.card:focus-visible{transform:translateY(-4px);box-shadow:0 16px 30px -22px rgba(0,0,0,.5)}
+  nav a:not(.btn)::after{transition:transform .25s ease}
+  header.top{transition:box-shadow .25s ease}
+}
